@@ -1,4 +1,4 @@
-module github.com/soxft/busuanzi
+module github.com/lyy2005a2/busuanzi
 
 go 1.22.3
 toolchain go1.24.1
