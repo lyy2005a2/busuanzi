@@ -3,8 +3,8 @@ package core
 import (
 	"context"
 	camp "github.com/orcaman/concurrent-map/v2"
-	"github.com/soxft/busuanzi/config"
-	"github.com/soxft/busuanzi/process/redisutil"
+	"github.com/lyy2005a2/busuanzi/config"
+	"github.com/lyy2005a2/busuanzi/process/redisutil"
 	"github.com/spf13/viper"
 	"log"
 	"time"
