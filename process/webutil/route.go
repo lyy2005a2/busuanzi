@@ -2,9 +2,9 @@ package webutil
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/soxft/busuanzi/app/controller"
-	"github.com/soxft/busuanzi/app/middleware"
-	"github.com/soxft/busuanzi/config"
+	"github.com/lyy2005a2/busuanzi/app/controller"
+	"github.com/lyy2005a2/busuanzi/app/middleware"
+	"github.com/lyy2005a2/busuanzi/config"
 )
 
 func initRoute(r *gin.Engine) {
