@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/soxft/busuanzi/library/jwtutil"
-	"github.com/soxft/busuanzi/library/tool"
+	"github.com/lyy2005a2/busuanzi/library/jwtutil"
+	"github.com/lyy2005a2/busuanzi/library/tool"
 	"strings"
 )
 
