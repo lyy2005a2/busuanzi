@@ -2,8 +2,8 @@ package core
 
 import (
 	"context"
-	"github.com/soxft/busuanzi/library/tool"
-	"github.com/soxft/busuanzi/process/redisutil"
+	"github.com/lyy2005a2/busuanzi/library/tool"
+	"github.com/lyy2005a2/busuanzi/process/redisutil"
 	"github.com/spf13/viper"
 	"strings"
 )
