@@ -1,7 +1,7 @@
 package jwtutil
 
 import (
-	"github.com/soxft/busuanzi/library/tool"
+	"github.com/lyy2005a2/busuanzi/library/tool"
 	"github.com/spf13/viper"
 	"strings"
 )
