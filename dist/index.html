@@ -2,33 +2,49 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>不蒜子 - powered by xcsoft</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="xcsoft">
-    <meta name="description" content="基于 Golang 的简易页面访问统计">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <link href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/styles/atom-one-dark.min.css" type="text/css" rel="stylesheet" />
-    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/highlight.min.js" type="application/javascript"></script>
-    <script async data-style="short" src="/js"></script>
-    <script>
-        try {
-            hljs.highlightAll();
-        } catch (_e) {}
-    </script>
+    <title>龙氏 · 自建不蒜子统计平台</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="基于 Golang + Redis 的极速页面访问统计">
+    <link rel="icon" href="https://tu.long2024.cn/favicon.ico">
+    <script src="https://jsd.dusays.com/npm/penndu@18.0.1/tailwind.js"></script>
+    <link rel="stylesheet"
+          href="https://jsd.dusays.com/gh/highlightjs/cdn-release@11.4.0/build/styles/atom-one-dark.min.css">
+    <script src="https://jsd.dusays.com/gh/highlightjs/cdn-release@11.4.0/build/highlight.min.js"></script>
     <style>
-        a {
-            color: gray;
-            text-decoration: none;
+        body { font-family: "PingFang SC","Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif; }
+        .typing {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid;
+            width: 0;
+            animation: typing 2.5s steps(30, end) forwards, blink 0.75s step-end infinite;
         }
-        h2, h5, p {
-            font-family: STKaiti, serif;
+        @keyframes typing { to { width: 100%; } }
+        @keyframes blink { 50% { border-color: transparent; } }
+        .card-hover { transition: all .3s ease; }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+         
+        .code-wrapper { position: relative; }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0,0,0,.4);
+            color: #fff;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background .2s;
         }
+        .copy-btn:hover { background: rgba(0,0,0,.6); }
     </style>
 </head>
+<body class="bg-gradient-to-br from-sky-50 via-indigo-50 to-purple-50 min-h-screen flex flex-col">
 
-<body>
-<a href="https://github.com/soxft/busuanzi" class="github-corner" aria-label="View source on GitHub">
+
+<a href="https://github.com/lyy2005a2/busuanzi" class="github-corner" aria-label="View source on GitHub" target="_blank">
     <svg width="80" height="80" viewBox="0 0 250 250"
          style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -42,42 +58,103 @@
         </path>
     </svg>
 </a>
-<div style="height:10vh"></div>
-<div class="container">
-    <div class="card">
-        <div class="card-body">
-            <h2 style="text-align: center;">
-                自建 不蒜子 API
-            </h2>
-            <h5>前言: </h5>
-            <p style="padding-left: 30px">
-                <a href="https://busuanzi.ibruce.info">不蒜子</a>是一款不错的前端统计工具
-                <br />本站模仿其功能 通过 Golang + Redis 实现
-                <br />uv 通过ip统计, pv 通过referer区分, 所有信息仅记录md5
-                <br />项目使用 Apache2.0 开源: <a href="//github.com/soxft/busuanzi">soxft/busuanzi</a>
-            </p>
-            <div style="height:10px"></div>
-            <h5>使用: </h5>
-            <pre><code class="language-html" style="border-radius:8px">&lt;script async src=&quot;https://busuanzi.9420.ltd/js&quot;&gt;&lt;/script&gt;
-本页总阅读量 &lt;span id=&quot;busuanzi_page_pv&quot;&gt;&lt;/span&gt; 次
-本页总访客量 &lt;span id=&quot;busuanzi_page_uv&quot;&gt;&lt;/span&gt; 人
-本站总访问量 &lt;span id=&quot;busuanzi_site_pv&quot;&gt;&lt;/span&gt; 次
-本站总访客数 &lt;span id=&quot;busuanzi_site_uv&quot;&gt;&lt;/span&gt; 人</code></pre>
+
+
+<main class="flex-grow flex items-center justify-center p-4">
+    <div class="w-full max-w-4xl">
+        <div class="card-hover bg-white/80 backdrop-blur rounded-2xl shadow-lg p-6 md:p-8 space-y-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-purple-600 typing">
+                龙氏 · 自建不蒜子
+            </h1>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2 text-gray-700">前言</h2>
+                <p class="text-gray-600 leading-relaxed">
+                    不蒜子是一款很不错的前端统计工具，但其节点位于美国访问太慢。<br>
+                    本站 API 模仿其功能，通过 <strong>Golang + Redis</strong> 实现前端页面的访问统计。<br>
+                    UV 通过 IP 统计，PV 通过 Referer 区分，所有信息仅记录 MD5。<br>
+                    服务器配置 <strong>2H4G</strong>，下行 <strong>100 兆</strong>，上行 <strong>5 兆</strong>，流量走境内 CDN。
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2 text-gray-700">使用</h2>
+                <div class="code-wrapper">
+                    <button class="copy-btn" data-target="code-html">Copy</button>
+                    <pre id="code-html" class="rounded-lg overflow-auto"><code class="language-html">&#x3C;script async src=&#x22;https://busz.long2024.cn/js&#x22;&#x3E;&#x3C;/script&#x3E;
+本页总阅读量 &#x3C;span id=&#x22;busuanzi_page_pv&#x22;&#x3E;&#x3C;/span&#x3E; 次
+本页总访客量 &#x3C;span id=&#x22;busuanzi_page_uv&#x22;&#x3E;&#x3C;/span&#x3E; 人
+本站总访问量 &#x3C;span id=&#x22;busuanzi_site_pv&#x22;&#x3E;&#x3C;/span&#x3E; 次
+本站总访客数 &#x3C;span id=&#x22;busuanzi_site_uv&#x22;&#x3E;&#x3C;/span&#x3E; 人</code></pre>
+                </div>
+            </section>
+
+            <!-- <section>
+                <h2 class="text-xl font-semibold mb-2 text-gray-700">原文</h2>
+                <a href="https://yunpan.long2024.cn/" target="_blank"
+                   class="inline-flex items-center text-sky-600 hover:text-purple-600 underline transition">
+                    《杜老师自建国内不蒜子统计平台》
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"
+                                                   d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+            </section> -->
+
+            
+            <div class="grid grid-cols-2 gap-4 text-center text-gray-600">
+                <div class="p-3 bg-sky-50 rounded-lg">
+                    <div class="text-2xl font-bold text-sky-600">
+                        <span id="busuanzi_page_pv">-</span>
+                    </div>
+                    <div class="text-xs">本页访问量</div>
+                </div>
+                <div class="p-3 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">
+                        <span id="busuanzi_page_uv">-</span>
+                    </div>
+                    <div class="text-xs">本页访客数</div>
+                </div>
+                <div class="p-3 bg-indigo-50 rounded-lg">
+                    <div class="text-2xl font-bold text-indigo-600">
+                        <span id="busuanzi_site_pv">-</span>
+                    </div>
+                    <div class="text-xs">本站访问量</div>
+                </div>
+                <div class="p-3 bg-rose-50 rounded-lg">
+                    <div class="text-2xl font-bold text-rose-600">
+                        <span id="busuanzi_site_uv">-</span>
+                    </div>
+                    <div class="text-xs">本站访客数</div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<p style="text-align: center; max-width: 95vw; margin: auto; padding-top: 10px;">
-    本页访问量 <span id="busuanzi_page_pv">-</span> 次
-    本页访客数 <span id="busuanzi_page_uv">-</span> 人
-</p>
-<p style="text-align: center; max-width: 95vw; margin: auto; padding-top: 10px;">
-    本站访问量 <span id="busuanzi_site_pv">-</span> 次
-    本站访客数 <span id="busuanzi_site_uv">-</span> 人
-</p>
-<div style="height:10vh"></div>
+</main>
 
-<div class="fixed-bottom" style="padding-left: 15px;padding-bottom: 8px;color: gray">
-    copyright &copy; <a href="//www.xsot.cn">xcsoft</a>
-</div>
+
+<footer class="text-center py-6 text-sm text-gray-500">
+    copyright &copy;
+    <a href="https://long2025.top" target="_blank" class="hover:text-purple-600 transition">龙氏</a>
+    | Powered by
+    <a href="//www.xsot.cn" target="_blank" class="hover:text-purple-600 transition">xcsoft</a>
+</footer>
+
+
+<script async src="/js"></script>
+<script>
+    hljs.highlightAll();
+    
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const code = document.getElementById(targetId).innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const original = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = original, 1500);
+            });
+        });
+    });
+</script>
 </body>
 </html>
