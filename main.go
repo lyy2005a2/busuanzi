@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/soxft/busuanzi/config"
-	"github.com/soxft/busuanzi/core"
-	"github.com/soxft/busuanzi/process/redisutil"
-	"github.com/soxft/busuanzi/process/webutil"
+	"github.com/lyy2005a2/busuanzi/config"
+	"github.com/lyy2005a2/busuanzi/core"
+	"github.com/lyy2005a2/busuanzi/process/redisutil"
+	"github.com/lyy2005a2/busuanzi/process/webutil"
 )
 
 func main() {
