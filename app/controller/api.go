@@ -5,13 +5,13 @@ import (
 	"net/url"
 
 	"github.com/gin-gonic/gin"
-	"github.com/soxft/busuanzi/core"
-	"github.com/soxft/busuanzi/library/tool"
+	"github.com/lyy2005a2/busuanzi/core"
+	"github.com/lyy2005a2/busuanzi/library/tool"
 )
 
 var defaultData = gin.H{
-	"project": "https://github.com/soxft/busuanzi",
-	"usage":   "https://github.com/soxft/busuanzi/wiki/usage",
+	"project": "https://github.com/lyy2005a2/busuanzi",
+	"usage":   "https://github.com/lyy2005a2/busuanzi/wiki/usage",
 }
 
 func ApiHandler(c *gin.Context) {
