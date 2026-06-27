@@ -3,8 +3,8 @@ package webutil
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/soxft/busuanzi/app/middleware"
-	"github.com/soxft/busuanzi/config"
+	"github.com/lyy2005a2/busuanzi/app/middleware"
+	"github.com/lyy2005a2/busuanzi/config"
 	"github.com/spf13/viper"
 	"log"
 	"net/url"
